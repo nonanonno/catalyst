@@ -1,0 +1,39 @@
+name: "ci"
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  GODOT_VERSION: 4.2.2
+  PROJECT_DIR: catalyst
+  LIB_DIR: catalyst-lib
+
+jobs:
+  export-linux:
+    name: Export Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "${{ env.LIB_DIR }} -> target"
+      - run: |
+          cargo build
+          cargo test --all-features
+          cargo build --release
+        working-directory: ${{ env.LIB_DIR }}
+      - uses: firebelley/godot-export@v5.2.1
+        id: export
+        with:
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_export_templates.tpz
+          relative_project_path: ${{ env.PROJECT_DIR }}
+          archive_output: true
+          cache: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: ${{ steps.export.outputs.archive_directory }}/linux.zip
