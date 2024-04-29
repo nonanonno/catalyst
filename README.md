@@ -1,11 +1,11 @@
 # catalyst
 
-# Prerequisite
+## Prerequisite
 
 -   [Godot](https://godotengine.org/) : >= 4.2
 -   [Rust](https://www.rust-lang.org/)
 
-# Getting Started
+## Getting Started
 
 1. Clone this repository.
 
@@ -32,14 +32,14 @@ cargo watch -C catalyst-lib -x build
 godot --path catalyst -e
 ```
 
-# Testing
+## Testing
 
 ```shell
 cd catalyst-lib
 cargo test
 ```
 
-# Export (Release build)
+## Export (Release build)
 
 To make release build image via CLI, execute the following commands.
 
