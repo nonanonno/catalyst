@@ -1,0 +1,17 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "cdylib",
+        "consts",
+        "dylib",
+        "gdext",
+        "gdextension",
+        "libcatalyst",
+        "reloadable"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
