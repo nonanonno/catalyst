@@ -52,9 +52,7 @@ cd ..
 # Export godot application
 # Make sure that the output directory is relative to the project.godot existent directory.
 mkdir -p build
-# For Limux
-godot --path catalyst --export-release ../build/catalyst
 
-# For macOC
-godot --path catalyst --export-release ../build/catalyst.dmg
+# For Linux
+godot --path catalyst --export-release linux
 ```
