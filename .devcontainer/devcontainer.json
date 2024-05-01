@@ -1,0 +1,17 @@
+{
+    "name": "iron desktop",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "container",
+    "workspaceFolder": "/workspaces/catalyst",
+    "shutdownAction": "stopCompose",
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {}
+    },
+    "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": []
+        }
+    }
+}
