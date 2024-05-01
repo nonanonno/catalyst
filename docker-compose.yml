@@ -1,0 +1,29 @@
+services:
+  container:
+    build: docker
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - DISPLAY
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - XDG_RUNTIME_DIR=/tmp/runtime-xdg_runtime_dir
+      - PULSE_SERVER=unix:/tmp/pulse/native
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
+      - /usr/share/vulkan/implicit_layer.d:/usr/share/vulkan/implicit_layer.d:ro
+      - ${XDG_RUNTIME_DIR}/pulse/native:/tmp/pulse/native
+      - ${HOME}/.config/pulse/cookie:/tmp/pulse/cookie:ro
+      - .:/workspaces/catalyst:cached
+    tmpfs:
+      - /tmp/runtime-xdg_runtime_dir
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
