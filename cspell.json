@@ -7,9 +7,11 @@
         "cdylib",
         "consts",
         "dylib",
+        "GDCLASS",
         "gdext",
         "gdextension",
         "libcatalyst",
+        "rclcpp",
         "reloadable"
     ],
     "ignoreWords": [],
