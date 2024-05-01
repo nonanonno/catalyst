@@ -1,5 +1,7 @@
 # catalyst
 
+[![ci](https://github.com/nonanonno/catalyst/actions/workflows/ci.yml/badge.svg)](https://github.com/nonanonno/catalyst/actions/workflows/ci.yml)
+
 ## Prerequisite
 
 -   [Godot](https://godotengine.org/) : >= 4.2
