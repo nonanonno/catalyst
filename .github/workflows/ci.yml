@@ -6,34 +6,70 @@ on:
     branches: [main]
 
 env:
-  GODOT_VERSION: 4.2.2
   PROJECT_DIR: catalyst
   LIB_DIR: catalyst-lib
+  ROS_DISTRO: iron
+  SCONS_CACHE: ${{ github.workspace }}/.scons-cache/"
+  SCONS_CACHE_LIMIT: "7168"
 
 jobs:
   export-linux:
     name: Export Linux
+    strategy:
+      matrix:
+        ros_distro:
+          - iron
+        godot_version:
+          - 4.2.2
     runs-on: ubuntu-latest
+    container:
+      image: ros:${{ matrix.ros_distro }}-ros-base
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends curl unzip clang scons
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: "${{ env.LIB_DIR }} -> target"
-      - run: |
+      - name: build catalyst-lib
+        run: |
           cargo build
           cargo test --all-features
           cargo build --release
         working-directory: ${{ env.LIB_DIR }}
-      - uses: firebelley/godot-export@v5.2.1
-        id: export
+      - uses: chickensoft-games/setup-godot@v2
         with:
-          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_export_templates.tpz
-          relative_project_path: ${{ env.PROJECT_DIR }}
-          archive_output: true
-          cache: true
+          version: ${{ matrix.godot_version }}
+          include-templates: true
+          use-dotnet: false
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.SCONS_CACHE }}
+          key: rosbridge-${{ matrix.godot_version }}-${{ matrix.ros_distro }}-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            rosbridge-${{ matrix.godot_version }}-${{ matrix.ros_distro }}-${{ github.ref }}-${{ github.sha }}
+            rosbridge-${{ matrix.godot_version }}-${{ matrix.ros_distro }}-${{ github.ref }}
+            rosbridge-${{ matrix.godot_version }}-${{ matrix.ros_distro }}
+
+      - name: build rosbridge
+        run: |
+          cd rosbridge
+          bash configure-godot-cpp.sh
+          bash build.sh
+          bash build.sh release
+      - name: export application
+        run: |
+          . /opt/ros/${{ matrix.ros_distro }}/setup.sh
+          mkdir -p build/linux/catalyst
+          godot --headless --path ${{ env.PROJECT_DIR }} --export-release linux ../build/linux/catalyst/catalyst.x86_64
+          echo "output_directory=build/linux" >> $GITHUB_OUTPUT
+        id: export
       - uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: ${{ steps.export.outputs.archive_directory }}/linux.zip
+          path: ${{ steps.export.outputs.output_directory }}

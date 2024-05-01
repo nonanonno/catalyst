@@ -26,9 +26,18 @@ For convenience, I recommend to use [cargo-watch](https://crates.io/crates/cargo
 cargo watch -C catalyst-lib -x build
 ```
 
-3. Open godot project
+3. Build the rosbridge.
 
 ```shell
+cd rosbridge
+bash configure-godot-cpp.sh
+bash build.sh
+```
+
+4. Open godot project
+
+```shell
+source /opt/ros/$ROS_DISTRO/setup.bash
 godot --path catalyst -e
 ```
 
@@ -49,10 +58,14 @@ cd catalyst-lib
 cargo build --release
 cd ..
 
+cd rosbridge
+bash build.sh release
+
 # Export godot application
 # Make sure that the output directory is relative to the project.godot existent directory.
 mkdir -p build
 
 # For Linux
+source /opt/ros/$ROS_DISTRO/setup.bash
 godot --path catalyst --export-release linux
 ```
