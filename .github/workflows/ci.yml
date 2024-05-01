@@ -25,15 +25,16 @@ jobs:
           cargo test --all-features
           cargo build --release
         working-directory: ${{ env.LIB_DIR }}
-      - uses: firebelley/godot-export@v5.2.1
-        id: export
+      - uses: chickensoft-games/setup-godot@v2
         with:
-          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}-stable_export_templates.tpz
-          relative_project_path: ${{ env.PROJECT_DIR }}
-          archive_output: true
-          cache: true
+          version: ${{ env.GODOT_VERSION }}
+          include-templates: true
+      - run: |
+          mkdir -p build/linux/catalyst
+          godot --headless --path ${{ env.PROJECT_DIR }} --export-release linux ../build/linux/catalyst/catalyst.x86_64
+          echo "output_directory=build/linux" >> $GITHUB_OUTPUT
+        id: export
       - uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: ${{ steps.export.outputs.archive_directory }}/linux.zip
+          path: ${{ steps.export.outputs.output_directory }}
