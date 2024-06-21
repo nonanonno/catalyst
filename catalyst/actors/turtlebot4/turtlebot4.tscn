@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://csfexisl7y7s2"]
+
+[ext_resource type="PackedScene" uid="uid://c47tf105bcqhc" path="res://actors/turtlebot4/tutlebot4.glb" id="1_15mda"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kjdvn"]
+height = 0.08
+radius = 0.158691
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7k3lo"]
+radius = 0.0353583
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rt4b4"]
+radius = 0.0123
+
+[node name="Turtlebot4" type="RigidBody3D"]
+mass = 0.5
+center_of_mass_mode = 1
+center_of_mass = Vector3(0.1, 0, 0)
+
+[node name="tutlebot4" parent="." instance=ExtResource("1_15mda")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0523586, 0)
+shape = SubResource("CylinderShape3D_kjdvn")
+
+[node name="LeftWheelCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0346473, -0.118056)
+shape = SubResource("SphereShape3D_7k3lo")
+
+[node name="RightWheelCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0.118)
+shape = SubResource("SphereShape3D_7k3lo")
+
+[node name="FrontWheelCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125905, 0.0127104, 0)
+shape = SubResource("SphereShape3D_rt4b4")

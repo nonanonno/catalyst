@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://nmgvpvj2yc0u"]
+
+[ext_resource type="PackedScene" uid="uid://csfexisl7y7s2" path="res://actors/turtlebot4/turtlebot4.tscn" id="1_jgq1x"]
+[ext_resource type="PackedScene" uid="uid://cxevuhvqtk721" path="res://starter_kit/playground/playground.tscn" id="2_mnhtv"]
+[ext_resource type="PackedScene" uid="uid://bp58hiyreduje" path="res://starter_kit/phantom_camera/phantom_camera.tscn" id="3_2lmow"]
+
+[node name="TestTurtlebot" type="Node3D"]
+
+[node name="Turtlebot" parent="." instance=ExtResource("1_jgq1x")]
+
+[node name="Playground" parent="." instance=ExtResource("2_mnhtv")]
+
+[node name="PhantomCamera" parent="." instance=ExtResource("3_2lmow")]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 2)

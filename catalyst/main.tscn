@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cbqnuydhpn2xn"]
 
+[ext_resource type="PackedScene" uid="uid://d3xn0svtthcgq" path="res://actors/turtlebot/turtlebot.glb" id="1_kq5nm"]
 [ext_resource type="Texture2D" uid="uid://ppjybd285gym" path="res://icon.svg" id="1_lww6k"]
-[ext_resource type="PackedScene" uid="uid://wwb6wbo3jsg" path="res://asset/turtlebot.gltf" id="2_fhcjt"]
 [ext_resource type="Script" path="res://scripts/PhantomCamera.gd" id="3_8e8t4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ultpv"]
@@ -51,28 +51,28 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mvf5j")
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
+[node name="Turtlebot" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_rgmig")
 center_of_mass_mode = 1
 center_of_mass = Vector3(0.1, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="turtlebot" parent="Turtlebot" instance=ExtResource("1_kq5nm")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Turtlebot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0523586, 0)
 shape = SubResource("CylinderShape3D_kjdvn")
 
-[node name="turtlebot" parent="RigidBody3D" instance=ExtResource("2_fhcjt")]
-
-[node name="LeftWheelCollision" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="LeftWheelCollision" type="CollisionShape3D" parent="Turtlebot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0346473, -0.118056)
 shape = SubResource("SphereShape3D_7k3lo")
 
-[node name="RightWheelCollision" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="RightWheelCollision" type="CollisionShape3D" parent="Turtlebot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0.118)
 shape = SubResource("SphereShape3D_7k3lo")
 
-[node name="FrontWheelCollision" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="FrontWheelCollision" type="CollisionShape3D" parent="Turtlebot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125905, 0.0127104, 0)
 shape = SubResource("SphereShape3D_rt4b4")
 
