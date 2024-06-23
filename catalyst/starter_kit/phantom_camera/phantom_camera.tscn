@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp58hiyreduje"]
+
+[ext_resource type="Script" path="res://starter_kit/phantom_camera/PhantomCamera.gd" id="1_cvg5q"]
+
+[node name="PhantomCamera" type="Camera3D"]
+script = ExtResource("1_cvg5q")
